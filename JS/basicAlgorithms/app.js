@@ -10,7 +10,7 @@ let h = "5" , y = "10"
 console.log(myFavoriteHero,number,h,y)
 
 //Iteracion#2: Variables avanzadas
-// 1.1 Dado el siguiente javascript, cambia el valor de la propiedad age a 25. 
+// 2.1 Dado el siguiente javascript, cambia el valor de la propiedad age a 25. 
 const character = {name: 'Jack Sparrow', age: 10};
 character.age = "10"
 console.log(character.age)
