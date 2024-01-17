@@ -166,17 +166,21 @@ for (let i = 0; i <= 9; i++) {
 cuando el resto del numero dividido entre 2 sea 0.*/
 
 
-/*let r2 = 9
-r2 %= 2
-console.log(r2)*/
-
-
-for (let r2 = 0; (r2 <= 9) && (r2 %= 2 == 0); r2++) {
-    console.log(r2);
+for (let i2 = 0; (i2 <= 9); i2++) {
+    if(i2 % 2 == 0)
+    console.log("6.2", i2);
 }
 
 /*6.3 Crea un bucle para conseguir dormir contando ovejas.
 Este bucle tiene que dar 10 vueltas, es decir, 10 console.log.
 Muestra por consola un mensaje diciendo 'Intentando dormir 🐑' en cada vuelta del bucle
-y cambia el mensaje en la décima vuelta a 'Dormido!'.
-*/
+y cambia el mensaje en la décima vuelta a 'Dormido!'.*/
+
+let i3 = [1,2,3,4,5,6,7,8,9,10]
+i3.forEach(
+    element => {
+        if(element <= 9)
+        console.log("Intentando dormir 🐑");
+        if(element == 10)
+        console.log("Dormido!");
+});
