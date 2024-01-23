@@ -46,11 +46,23 @@ const sum2 = numbers.reduce((accumulator, currentValue) => accumulator + current
 
 console.log(sum2)
 
+/**Iteración #4: Calcular el promedio**
 
+Calcular un promedio es una tarea extremadamente común. Puedes usar este array para probar tu función:*/
 
+const numbers2 = [12, 21, 38, 5, 45, 37, 6];
 
+const average = numbers2.reduce((accumulator, currentValue) => accumulator + currentValue) /
+numbers2.length;
 
-  
-  
-    
+console.log(average)
+ 
+/**Iteración #5: Calcular promedio de strings**
 
+Crea una función que reciba por parámetro un array y cuando es un valor number lo sume y de lo contrario cuente la longitud del string y lo sume.
+Puedes usar este array para probar tu función: */
+
+const mixedElements = [6, 1, 'Rayo', 1, 'vallecano', '10', 'upgrade', 8, 'hub'];
+function averageWord(param) {
+  // insert code
+}
