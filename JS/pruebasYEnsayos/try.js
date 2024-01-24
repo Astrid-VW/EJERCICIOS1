@@ -77,15 +77,15 @@ const pruebaPokemon = showPokemon();
 console.log(pruebaPokemon);
 */
 
+// -----------------------------------------------------------
+
 const sumarArrow = (c,d) => c + d;
 
 const suma2 = sumarArrow(3,8)
 
 console.log(suma2)
 
-/* Ninguna de estas tampoco funciona. Quiero probar a hacer una arrow function
-en la que le pongo directamente los valores de los prámetros, pero no me deja,
-y tampoco funciona al sacarlo por la consola.
+//---------------------------------------------------------
 
 function showCount (count) {
     console.log(count??"unkown");
