@@ -14,10 +14,16 @@ document.body.appendChild(button)
 
 /*1.2 Añade un evento 'focus' que ejecute un console.log con el valor del input.*/
 
-const focusElement = document.getElementsByClassName.focus;
-focusElement.addEventListener("focus", (e) =>{
-    console.log(input.value)
+const focus = document.getElementsByClassName("focus");
+focus[0].addEventListener("focus", (evento) =>{
+    console.log(evento.target.value)
 });
 
 
 /*1.3 Añade un evento 'input' que ejecute un console.log con el valor del input.*/
+
+const value =document.querySelector(".value")
+
+value.addEventListener("input",(event) =>{
+    console.log(event.target.value)
+});
