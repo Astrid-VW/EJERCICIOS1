@@ -203,7 +203,7 @@ const registerWithRedirect = async (req, res, next) => {
         if (userSave) {
           return res.redirect(
             307,
-            `http://localhost:${PORT}/api/v1/users/register/register/sendMail/${userSave._id}`
+            `http://localhost:${PORT}/api/v1/users/sendMail/${userSave._id}`
           );
         }
       } catch (error) {

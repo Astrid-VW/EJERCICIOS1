@@ -8,7 +8,7 @@ UserRoutes.post("/registerLargo", upload.single("image"), registerLargo);
 UserRoutes.post("/registerUtil", upload.single("image"),registerMedio);
 UserRoutes.get("/registroMedio", upload.single("image"), registerMedio);
 
-UserRoutes.post("/register", upload.single("image"), registerWithRedirect);
+UserRoutes.post("/ register", upload.single("image"), registerWithRedirect);
 
-UserRoutes.get("register/register/sendMail/:id", sendCode);
+UserRoutes.post("/sendMail/:id", sendCode);
 module.exports = UserRoutes;
