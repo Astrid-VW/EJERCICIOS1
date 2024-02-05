@@ -11,11 +11,6 @@ dotenv.config();
 //! conectamos con la base de datos
 connect();
 
-//! ----------------- CONFIGURAR CLOUDINARY--------
-const { configCloudinary } = require("./src/middleware/files.middleware");
-
-configCloudinary();
-
 //! -----------------VARIABLES CONSTANTES --> PORT
 
 const PORT = process.env.PORT;
@@ -23,6 +18,11 @@ const PORT = process.env.PORT;
 //! -----------------------CORS-------------
 const cors = require("cors");
 app.use(cors());
+
+//! ----------------- CONFIGURAR CLOUDINARY--------
+const { configCloudinary } = require("./src/middleware/files.middleware");
+
+configCloudinary();
 
 //! ------------------ limitaciones de cantidad en el back end
 app.use(express.json({ limit: "5mb" }));
