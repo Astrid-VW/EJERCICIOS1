@@ -18,6 +18,8 @@ const {
   getTestEmailSend,
 } = require("../../state/state.data.js");
 const sendEmail = require("../../utils/sendEmail.js");
+const SendmailTransport = require("nodemailer/lib/sendmail-transport/index.js");
+const setError = require("../../helpers/handle_error.js");
 
 dotenv.config()
 
@@ -275,5 +277,117 @@ const sendCode = async (req, res, next) => {
   }
 };
 
-module.exports = { registerLargo, registerMedio, sendCode, registerWithRedirect};
+//! -----------------------------------------------------------------------------
+//? ------------------ RESEND CODE --------------------
+//! ----------------------------------------------------------------------------
+
+const resendCode = async (req, res, next) => {
+  try {
+    const email= process.env.EMAIL;
+    const password = process.env.PASSWORD;
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: email,
+        pass:password,
+      },
+    });
+
+    const userExists = await User.findOne({email: req.body.email});
+
+    if (userExists) {
+      const mailOptions = {
+        from: email,
+        to: req.body.email,
+        subject: 'confirmation code',
+        text: `tu codigo de verificacion es ${userExists.confirmationCode}`,
+      };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log(error);
+        return res.status(404).json({
+            resend: false,
+          });
+        } else {
+          console.log("Email sent: " + info.response);
+          return res.status(200).json({
+            resend: true,
+          });
+        }
+      });
+    } else {
+      return res.status (404).json("User not found");
+    }
+  } catch (error) {
+    return next(setError(500, error.message || "Send code general error"));
+  }
+};
+
+
+//! ------------------------------------------------------------------------
+//? -------------------------- CHECK NEW USER------------------------------
+//! ------------------------------------------------------------------------
+
+// el controlador que verifica que el código que introduce el nuevo usuario en el input (el del req.body en Insomnia) es el que se le ha mandado por e-mail (el de userExists.confirmationCode)
+
+const checkNewUser = async (req, res, next) => {
+  try {
+    //! nos traemos de la req.body el email y codigo de confirmation
+    const { email, confirmationCode } = req.body;
+
+    const userExists = await User.findOne({ email });
+
+    if (!userExists) {
+      //!No existe----> entonces 404 de que no se encuentra
+      return res.status(404).json("User not found");
+    } else {
+      // comprobamos si el codigo que recibimos por la req.body y el del userExists son iguales
+      if (confirmationCode === userExists.confirmationCode) {
+        try {
+          await userExists.updateOne({ check: true });
+
+          // para comprobar que este user se ha actualizado correctamente, hacemos un findOne
+          const updateUser = await User.findOne({ email });
+
+          // este finOne nos sirve para hacer un ternario que nos diga si la propiedad es true o false
+          return res.status(200).json({
+            testCheckOk: updateUser.check == true ? true : false,
+          });
+        } catch (error) {
+          return res.status(404).json(error.message);
+        }
+      } else {
+        try {
+          /// En caso de equivocarse con el codigo, borramos al usuario de la base datos y lo mandamos al registro
+          await User.findByIdAndDelete(userExists._id);
+
+          // borramos la imagen
+          deleteImgCloudinary(userExists.image);
+
+          // y devolvemos un 200 con el test de que el delete se ha hecho correctamente
+          return res.status(200).json({
+            userExists,
+            check: false,
+
+            // test en el runtime sobre la eliminacion de este user
+            delete: (await User.findById(userExists._id))
+              ? "error delete user"
+              : "ok delete user",
+          });
+        } catch (error) {
+          return res
+            .status(404)
+            .json(error.message || "delete user general error");
+        }
+      }
+    }
+  } catch (error) {
+    // en el catch devolvemos siempre un 500 con el error general
+    return next(setError(500, error.message || "General error check code"));
+  }
+};
+
+
+module.exports = { registerLargo, registerMedio, sendCode, resendCode, registerWithRedirect, checkNewUser};
 
