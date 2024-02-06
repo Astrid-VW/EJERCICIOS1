@@ -63,11 +63,38 @@ Crea una función que reciba por parámetro un array y cuando es un valor number
 Puedes usar este array para probar tu función: */
 
 const mixedElements = [6, 1, 'Rayo', 1, 'vallecano', '10', 'upgrade', 8, 'hub'];
-function averageWord(param) {
-  let sumMixedElements =   + "".length
+
+function averageWord(array) {
+  let arrayNumbers = array.map((entry) => {
+    if (typeof entry === "string"){
+      return entry.length;
+    } else if (typeof entry === "number") {
+      return entry;
+    } else {
+      return 0
+    }    
+  })
+
+// lo llamo iTotal con i de integer
+  const iTotal = arrayNumbers.reduce((accumulator, currentValue) => accumulator + currentValue)
+    return iTotal
+  /*let arrayStrings = array.filter(function(element) { 
+    return typeof element == 'string' });
+  
+
+  let arrayNumbers = array.filter(function(element) { 
+    return typeof element == 'number' });
+
+
+
+  let sumMixedElements =   + "".length*/
 }
 
-/**Iteración #6: Valores únicos**
+const iTotal = averageWord(mixedElements)
+
+console.log("el resultado de la funcion averageWord es", iTotal)
+
+/**Iteración #6: Valores únicos
 
 Crea una función que reciba por parámetro un array y compruebe si existen elementos duplicados, en caso que existan los elimina para retornar un array sin los elementos duplicados. Puedes usar este array para probar tu función:
 
