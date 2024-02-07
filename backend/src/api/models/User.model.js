@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt"); // para encryptar informacion
-const validator = require("validator"); /// n os sirve para validad info
+const validator = require("validator"); /// nos sirve para validar info
 const mongoose = require("mongoose");
 
 const UserSchema = new mongoose.Schema(

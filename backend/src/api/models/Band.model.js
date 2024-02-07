@@ -13,12 +13,12 @@ const Schema = mongoose.Schema;
 // ------------> que sea requerido, una longitud maxima y minima, etc etc
 
 
-const CitiesSchema = new mongoose.Schema(
+const BandSchema = new mongoose.Schema(
     {
       name: { type: String, required: true, unique: true },
-      continent: {type: String, enum: ["Oceania", "Europa", "América del Norte", "Latinoamérica", "Asia", "África", "Antártida"], required: true},
+      genre: {type: String, enum: ["rock", "jazz", "classical", "folk", "pop", "electronic", "bso", "ethnic", "blues", "metal"], required: true},
       country: { type: String, required: true },
-      monuments: { type: mongoose.Schema.Types.ObjectId, ref: "Monument", required: false },
+      musicians: [{ type: mongoose.Schema.Types.ObjectId, ref: "musicians", required: false }],
       image: { type: String, required: true },
       likes: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
       //owner: { type: mongoose.Schema.Types.ObjectId, ref: "User" }
@@ -28,7 +28,7 @@ const CitiesSchema = new mongoose.Schema(
     }
   );
   
-  const City = mongoose.model("City", CitiesSchema);
+  const Band = mongoose.model("Band", BandSchema);
   
-  module.exports = City;
+  module.exports = Band;
   

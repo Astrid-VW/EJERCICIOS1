@@ -32,11 +32,12 @@ app.use(express.urlencoded({ limit: "5mb", extended: false }));
 const UserRoutes = require("./src/api/routes/User.routes");
 app.use("/api/v1/users/", UserRoutes);
 
-const MonumentRoutes = require("./src/api/routes/Monument.routes");
-app.use("/api/v1/monuments/", MonumentRoutes);
+const MusicianRoutes = require("./src/api/routes/Musician.routes");
+app.use("/api/v1/musician/", MusicianRoutes);
 
-const CityRoutes = require("./src/api/routes/City.routes");
-app.use("/api/v1/city/", CityRoutes);
+const BandRoutes = require("./src/api/routes/Band.routes");
+app.use("/api/v1/band/", BandRoutes);
+
 
 //! -------------------> generamos un error de cuando no see encuentre la ruta
 app.use("*", (req, res, next) => {

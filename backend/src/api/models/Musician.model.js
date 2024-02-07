@@ -13,12 +13,12 @@ const Schema = mongoose.Schema;
 // ------------> que sea requerido, una longitud maxima y minima, etc etc
 
 
-const MonumentSchema = new Schema(
+const MusicianSchema = new Schema(
   {
-    name: { type: String, required: true, unique: false },
-    type: { type: String, enum: ["Edificio", "Monumento", "Museo", "Lugar histórico", "Estatua", "Espacio natural", "Ocio", "Mirador", "Restauración", "Instalaciones deportivas"], required: true },
+    name: { type: String, required: true, unique: true },
+    role: { type: String, enum: ["Lead singer", "Guitar Player", "Drums", "Bass Player", "Second Guitar", "Keyboards", "Brass", "Strings", "Choir singer", "Others"], required: true },
+    band: [{ type: mongoose.Schema.Types.ObjectId, ref: "Band" }],
     image: { type: String, required: true},
-    city: [{ type: mongoose.Schema.Types.ObjectId, ref: "City" }],
     likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   },
   {
@@ -28,8 +28,8 @@ const MonumentSchema = new Schema(
 
 //! -------- con la definicion de datos y su esquema vamos a crear el modelo de datos
 
-const Monument = mongoose.model("Monument", MonumentSchema);
+const Musician = mongoose.model("Musician", MusicianSchema);
 
 //! -------- exportar el modelo para que lo utilicen los controladores
 
-module.exports = Monument;
+module.exports = Musician;
