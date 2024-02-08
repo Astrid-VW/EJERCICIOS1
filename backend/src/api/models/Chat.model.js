@@ -12,14 +12,11 @@ const Schema = mongoose.Schema;
 // ------------> definimos otras propiedades que limitan la informacion que se puede incluir en esa clave
 // ------------> que sea requerido, una longitud maxima y minima, etc etc
 
-
-const MusicianSchema = new Schema(
+const ChatSchema = new Schema(
   {
-    name: { type: String, required: true, unique: false },
-    role: { type: String, enum: ["Lead singer", "Guitar Player", "Drums", "Bass Player", "Second Guitar", "Keyboards", "Brass", "Strings", "Choir singer", "Others"], required: true },
-    band: [{ type: mongoose.Schema.Types.ObjectId, ref: "band" }],
-    image: { type: String, required: true},
-    likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    messages: [{ type: mongoose.Schema.Types.ObjectId, ref: "Message" }],
+    userOne: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    userTwo: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   },
   {
     timestamps: true,
@@ -28,8 +25,8 @@ const MusicianSchema = new Schema(
 
 //! -------- con la definicion de datos y su esquema vamos a crear el modelo de datos
 
-const Musician = mongoose.model("musicians", MusicianSchema);
+const Chat = mongoose.model("Chat", ChatSchema);
 
 //! -------- exportar el modelo para que lo utilicen los controladores
 
-module.exports = Musician;
+module.exports = Chat;

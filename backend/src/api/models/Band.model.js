@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 
 //! ----------nos traemos de mongoose la parte de los esquemas de datos
 
-const Schema = mongoose.Schema;
+/*const Schema = mongoose.Schema;*/
 
 //! --------- creamos los esquemas de datos
 
@@ -27,8 +27,8 @@ const BandSchema = new mongoose.Schema(
       timestamps: true,
     }
   );
+
+const Band = mongoose.model("band", BandSchema);
   
-  const Band = mongoose.model("Band", BandSchema);
-  
-  module.exports = Band;
+module.exports = Band;
   

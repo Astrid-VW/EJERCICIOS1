@@ -38,6 +38,9 @@ app.use("/api/v1/musician/", MusicianRoutes);
 const BandRoutes = require("./src/api/routes/Band.routes");
 app.use("/api/v1/band/", BandRoutes);
 
+const MessageRoutes = require("./src/api/routes/Message.routes");
+app.use("/api/v1/message/", MessageRoutes);
+
 
 //! -------------------> generamos un error de cuando no see encuentre la ruta
 app.use("*", (req, res, next) => {

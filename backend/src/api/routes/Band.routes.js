@@ -1,4 +1,4 @@
-const { createBand, getById, getAll, getByName, deleteBand, toggleBand, toggleMusician } = require("../controllers/Band.Controller");
+const { createBand, getById, getAll, getByName, deleteBand, toggleMusician } = require("../controllers/Band.Controller");
 const { upload } = require("../../middleware/files.middleware");
 const BandRoutes = require("express").Router();
 

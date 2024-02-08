@@ -1,6 +1,6 @@
+const Musician = require("../models/Musician.model");
 const Band = require("../models/Band.model");
 const enumOk = require("../../utils/enumOk");
-const Musician = require("../models/Musician.model");
 
 /**+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  * ++++++++++++++++++++++++++-------C R U D--------+++++++++++++++++++++++++++++++++++
@@ -60,7 +60,7 @@ const getById = async (req, res, next) => {
 
 const getAll = async (req, res, next) => {
   try {
-    const allBands = await Band.find().populate("musicos");
+    const allBands = await Band.find().populate("musicians");
     /** el find nos devuelve un array */
     if (allBands.length > 0) {
       return res.status(200).json(allBands);
@@ -101,26 +101,27 @@ const getByName = async (req, res, next) => {
 //? -------------------------------DELETE -------------------------------
 //! ---------------------------------------------------------------------
 
+
 const deleteBand = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const Band = await Band.findByIdAndDelete(id);
-    if (Band) {
+    const band = await Band.findByIdAndDelete(id);
+    if (band) {
       // lo buscamos para vr si sigue existiendo o no
       const finByIdBand = await Band.findById(id);
 
       try {
-        const test = await musician.updateMany(
-          { Band: id },
-          { $pull: { Band: id } }
+        const test = await Musician.updateMany(
+          { band: id },
+          { $pull: { band: id } }
         );
         console.log(test);
-
+        
         try {
-          await User.updateMany(
-            { BandFav: id },
-            { $pull: { BandFav: id } }
-          );
+         /* await User.updateMany(
+            { bandFav: id },
+            { $pull: { bandFav: id } }
+          );*/
 
           return res.status(finByIdBand ? 404 : 200).json({
             deleteTest: finByIdBand ? false : true,

@@ -12,7 +12,8 @@ const Band = require("../models/Band.model");
 //! ---------------------------------------------------------------------
 
 const createMusician = async (req, res, next) => {
-  try {
+  
+try {
     await Musician.syncIndexes();
     const testEnumOk = enumOk(req.body?.role);
 
@@ -62,7 +63,7 @@ const getById = async (req, res, next) => {
 
 const getAll = async (req, res, next) => {
   try {
-    const allMusicians = await Musician.find().populate("bands");
+    const allMusicians = await Musician.find().populate("band");
     /** el find nos devuelve un array */
     if (allMusicians.length > 0) {
       return res.status(200).json(allMusicians);
@@ -112,17 +113,18 @@ const deleteMusician = async (req, res, next) => {
       const finByIdMusician = await Musician.findById(id);
 
       try {
-        const test = await band.updateMany(
+        const test = await Band.updateMany(
           { musician: id },
           { $pull: { musician: id } }
         );
         console.log(test);
+    
 
         try {
-          await User.updateMany(
+         /* await User.updateMany(
             { musicianFav: id },
             { $pull: { musicianFav: id } }
-          );
+          );*/
 
           return res.status(finByIdMusician ? 404 : 200).json({
             deleteTest: finByIdMusician ? false : true,
@@ -133,6 +135,7 @@ const deleteMusician = async (req, res, next) => {
             message: error.message,
           });
         }
+
       } catch (error) {
         return res.status(404).json({
           error: "error catch update Band",
@@ -154,7 +157,7 @@ const toggleBand = async (req, res, next) => {
     /** este id es el id de la band que queremos actualizar */
     const { id } = req.params;
     const { bands } = req.body; // -----> idDeLasBandas. Enviaremos esto por el req.body "12412242253,12535222232,12523266346"
-    /** Buscamos la banda por id para saber si existe */
+    /** Buscamos el músico por id para saber si existe */
     const musicianById = await Musician.findById(id);
 
     /** vamos a hacer un condicional para que si existe hacer la update y si no, mandamos un 404 */
@@ -171,7 +174,7 @@ const toggleBand = async (req, res, next) => {
        */
       Promise.all(
         arrayIdBands.map(async (band, index) => {
-          if (musicianById.bands.includes(band)) {
+          if (musicianById.band.includes(band)) {
 
             //*************************************************************************** */
 
@@ -182,7 +185,7 @@ const toggleBand = async (req, res, next) => {
             try {
               await Musician.findByIdAndUpdate(id, {
                 // dentro de la clave musicians, sacamos el id del elemento que estoy recorriendo
-                $pull: { bands: band },
+                $pull: { band: band },
               });
 
               try {
@@ -193,13 +196,13 @@ const toggleBand = async (req, res, next) => {
                 res.status(404).json({
                   error: "error update banda",
                   message: error.message,
-                }) && next(error);
+                }) 
               }
             } catch (error) {
               res.status(404).json({
                 error: "error update musico",
                 message: error.message,
-              }) && next(error);
+              }) 
             }
           } else {
             //*************************************************************************** */
@@ -209,23 +212,23 @@ const toggleBand = async (req, res, next) => {
 
             try {
               await Musician.findByIdAndUpdate(id, {
-                $push: { bands: band },
+                $push: { band: band },
               });
               try {
                 await Band.findByIdAndUpdate(band, {
-                  $push: { musician: id },
+                  $push: { musicians: id },
                 });
               } catch (error) {
                 res.status(404).json({
                   error: "error update banda",
                   message: error.message,
-                }) && next(error);
+                }) 
               }
             } catch (error) {
               res.status(404).json({
                 error: "error update musico",
                 message: error.message,
-              }) && next(error);
+              }) 
             }
           }
         })
@@ -233,7 +236,7 @@ const toggleBand = async (req, res, next) => {
         .catch((error) => res.status(404).json(error.message))
         .then(async () => {
           return res.status(200).json({
-            dataUpdate: await Musician.findById(id).populate("bands"),
+            dataUpdate: await Musician.findById(id).populate("band"),
           });
         });
     } else {
