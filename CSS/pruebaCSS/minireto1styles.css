@@ -1,0 +1,23 @@
+body {
+    background-color: rgb(52, 52, 52);
+    color: rgb(10, 0, 97);
+  }
+  
+  h1 {
+    text-transform: capitalize;
+    color: white
+  }
+
+  p {
+    color:skyblue;
+    font-size: 16px;
+  }
+  
+  li {
+    color: whitesmoke;
+    font-style: italic;
+  }
+
+  a{
+    color:brown;
+  }
